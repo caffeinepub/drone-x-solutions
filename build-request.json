@@ -1,0 +1,66 @@
+{
+  "kind": "build_request",
+  "title": "Add 4-language switcher and dronebase.it media content",
+  "projectName": "Drone X Solutions",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-9",
+      "text": "Add a language switcher to the top header bar supporting English, Greek, Russian, and Hebrew. The switcher should display flag icons or language abbreviations and allow users to toggle between all four languages. All visible site text (navigation, hero, services, about, testimonials, contact, booking form labels, footer) must update to the selected language using placeholder/auto-translated text for each locale. The selected language must persist across page navigation (e.g., via localStorage).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-4",
+          "msg-5"
+        ],
+        "quotes": [
+          "Greek, English, Russian, Israeli language change options",
+          "1. top header language change. 2. placeholder/auto-translated text for now"
+        ]
+      },
+      "acceptanceCriteria": [
+        "A language switcher is visible in the top header bar on all pages",
+        "Switcher offers four options: English, Greek, Russian, Hebrew",
+        "Selecting a language updates all visible text on the page to the corresponding translation",
+        "Placeholder/auto-translated strings are provided for Greek, Russian, and Hebrew",
+        "Selected language persists in localStorage and is restored on page reload",
+        "Switcher is responsive and accessible on both desktop and mobile views"
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "text": "Enrich the site's media sections (hero, about, services) with drone cleaning imagery and video content sourced from the dronebase.it manufacturer page. Embed or reference relevant product images and video (e.g., via an iframe or direct video URL from dronebase.it) showing the DJI Matrice 400 performing cleaning operations. Place a video showcase block in the About section or a dedicated 'Technology' subsection on the homepage.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-4",
+          "msg-5"
+        ],
+        "quotes": [
+          "add pictures and video from the manufacturer page regarding drone cleaning, dronebase.it"
+        ]
+      },
+      "acceptanceCriteria": [
+        "At least one video from dronebase.it is embedded or linked on the site (About section or dedicated technology block)",
+        "Drone cleaning images referencing dronebase.it manufacturer content appear in relevant sections (hero, about, or services)",
+        "Video embed is responsive and does not break layout on mobile or desktop",
+        "Media content visually fits the existing dark industrial theme"
+      ]
+    }
+  ],
+  "constraints": [
+    "Do not modify immutable frontend paths: frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, frontend/src/components/ui",
+    "Language switcher must not require backend changes — all translations are frontend-only with localStorage persistence",
+    "Existing site visual theme (dark navy/charcoal, electric yellow/orange accents) must be preserved"
+  ],
+  "nonGoals": [
+    "Professional human translation of site content (placeholder/auto-translated text only)",
+    "Backend storage of language preference",
+    "Downloading or self-hosting dronebase.it media assets (embed/reference only)",
+    "Adding new service types or modifying backend data models"
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  }
+}

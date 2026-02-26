@@ -1,0 +1,118 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Add 4-language switcher and dronebase.it media content",
+  "requirements": [
+    {
+      "id": "REQ-9",
+      "summary": "Add a 4-language switcher (English, Greek, Russian, Hebrew) to the top header with flag icons/abbreviations, persist selection in localStorage, and provide placeholder translations for all visible site text",
+      "acceptanceCriteria": [
+        "A language switcher is visible in the top header bar on all pages",
+        "Switcher offers four options: English, Greek, Russian, Hebrew",
+        "Selecting a language updates all visible text on the page to the corresponding translation",
+        "Placeholder/auto-translated strings are provided for Greek, Russian, and Hebrew",
+        "Selected language persists in localStorage and is restored on page reload",
+        "Switcher is responsive and accessible on both desktop and mobile views"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useLanguage.ts",
+          "operation": "create",
+          "description": "Create a custom hook that manages language state using localStorage persistence, provides current language getter/setter, and returns the active locale ('en', 'el', 'ru', 'he'). Initialize from localStorage on mount with 'en' as default."
+        },
+        {
+          "path": "frontend/src/contexts/LanguageContext.tsx",
+          "operation": "create",
+          "description": "Create a React context provider that wraps the useLanguage hook and exposes language state and setter to all child components via context API. Ensure the provider is added to the app root in main.tsx."
+        },
+        {
+          "path": "frontend/src/translations/index.ts",
+          "operation": "create",
+          "description": "Create a translations module that exports a nested object structure containing all site text organized by locale ('en', 'el', 'ru', 'he') and section keys (navigation, hero, services, about, testimonials, contact, booking, footer, admin). Include placeholder/auto-translated text for Greek, Russian, and Hebrew. Export a useTranslations hook that returns the translation object for the current language."
+        },
+        {
+          "path": "frontend/src/components/LanguageSwitcher.tsx",
+          "operation": "create",
+          "description": "Create a language switcher component displaying four options (English, Greek, Russian, Hebrew) with flag icons or language abbreviations (EN, ΕΛ, RU, עב). Use a dropdown or button group pattern. On selection, call the language setter from LanguageContext. Style to match the existing dark industrial theme with navy background and accent-yellow highlights. Ensure responsive design for mobile and desktop."
+        },
+        {
+          "path": "frontend/src/components/Layout.tsx",
+          "operation": "modify",
+          "description": "Add the LanguageSwitcher component to the top header bar, positioned to the right of the navigation links (before the LoginButton on desktop, inside the mobile menu on mobile). Ensure proper spacing and alignment with existing header elements."
+        },
+        {
+          "path": "frontend/src/components/HeroSection.tsx",
+          "operation": "modify",
+          "description": "Replace all hardcoded English text with translation keys from useTranslations hook (hero.title, hero.subtitle, hero.cta). Preserve dynamic CMS content from backend (heroTitle, heroSubtitle, ctaText) by using translations only as fallback or wrapper labels if needed. Ensure stat labels use translated text."
+        },
+        {
+          "path": "frontend/src/components/ServicesSection.tsx",
+          "operation": "modify",
+          "description": "Replace the section heading and any hardcoded labels with translation keys (services.heading, services.learnMore). Service titles and descriptions from backend should remain as-is (English only per non-goals)."
+        },
+        {
+          "path": "frontend/src/components/AboutSection.tsx",
+          "operation": "modify",
+          "description": "Replace the 'About Us' heading and all highlight card labels (technology, safety, certified, team) with translation keys from useTranslations (about.heading, about.technologyLabel, about.safetyLabel, about.certifiedLabel, about.teamLabel). Preserve dynamic aboutText from backend CMS."
+        },
+        {
+          "path": "frontend/src/components/TestimonialsSection.tsx",
+          "operation": "modify",
+          "description": "Replace the 'What Our Clients Say' heading and any labels (e.g., 'Customer', 'Rating') with translation keys (testimonials.heading, testimonials.customerLabel, testimonials.ratingLabel). Customer names and testimonial text remain in English."
+        },
+        {
+          "path": "frontend/src/components/GallerySection.tsx",
+          "operation": "modify",
+          "description": "Replace the 'Our Work' heading and before/after toggle labels with translation keys (gallery.heading, gallery.beforeLabel, gallery.afterLabel)."
+        },
+        {
+          "path": "frontend/src/components/ContactSection.tsx",
+          "operation": "modify",
+          "description": "Replace all text labels (heading, phone label, email label, location label, social media heading, CTA button text) with translation keys (contact.heading, contact.phoneLabel, contact.emailLabel, contact.locationLabel, contact.socialHeading, contact.whatsappCta)."
+        },
+        {
+          "path": "frontend/src/components/BookingForm.tsx",
+          "operation": "modify",
+          "description": "Replace all form labels, placeholders, and the submit button text with translation keys (booking.nameLabel, booking.emailLabel, booking.phoneLabel, booking.serviceLabel, booking.locationLabel, booking.dateLabel, booking.messageLabel, booking.submitButton). Preserve service type options in English or provide translated labels if needed."
+        },
+        {
+          "path": "frontend/src/main.tsx",
+          "operation": "modify",
+          "description": "Wrap the existing app root with the LanguageContext provider (imported from frontend/src/contexts/LanguageContext.tsx) so all components have access to the language state. Place it inside QueryClientProvider and InternetIdentityProvider."
+        },
+        {
+          "path": "frontend/src/pages/AdminPanel.tsx",
+          "operation": "modify",
+          "description": "Replace the admin panel heading and tab labels (Homepage, Services, Testimonials, Gallery, Bookings) with translation keys from useTranslations (admin.heading, admin.homepageTab, admin.servicesTab, admin.testimonialsTab, admin.galleryTab, admin.bookingsTab). Admin forms and field labels should also use translated text."
+        }
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "summary": "Enrich media sections with drone cleaning imagery and video from dronebase.it, embedding at least one video showcase in the About section or dedicated technology block",
+      "acceptanceCriteria": [
+        "At least one video from dronebase.it is embedded or linked on the site (About section or dedicated technology block)",
+        "Drone cleaning images referencing dronebase.it manufacturer content appear in relevant sections (hero, about, or services)",
+        "Video embed is responsive and does not break layout on mobile or desktop",
+        "Media content visually fits the existing dark industrial theme"
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/AboutSection.tsx",
+          "operation": "modify",
+          "description": "Add a video showcase block within the About section after the aboutText paragraph. Embed a video from dronebase.it showing the DJI Matrice 400 performing cleaning operations using an iframe or HTML5 video element with a direct URL. Style the video container to be responsive (16:9 aspect ratio with max-width constraint) and visually match the dark industrial theme with a subtle border or shadow. Reference dronebase.it as the video source in a caption or attribution line below the video."
+        },
+        {
+          "path": "frontend/src/components/HeroSection.tsx",
+          "operation": "modify",
+          "description": "Update the hero section to reference or include drone cleaning imagery from dronebase.it. If the heroImage from CMS is not set, use a dronebase.it product image as a fallback background or overlay. Ensure the image is fetched via URL (not self-hosted) and scales responsively. Maintain the existing dark gradient overlay for text readability."
+        },
+        {
+          "path": "frontend/src/components/ServicesSection.tsx",
+          "operation": "modify",
+          "description": "For services that involve the DJI Matrice 400 (e.g., solar panel cleaning, window cleaning), add small product images or icons sourced from dronebase.it URLs. Display these as decorative elements within service cards (e.g., top-right corner badge or inline with description). Ensure images are responsive and do not break the card layout on mobile."
+        }
+      ]
+    }
+  ]
+}

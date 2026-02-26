@@ -1,0 +1,5 @@
+{
+  "frontend/src/App.tsx": "Main application entry point that sets up TanStack Router with two routes — the home page (`/`) and admin panel (`/admin`) — both wrapped in the shared Layout component via a root route with Outlet.",
+  "frontend/src/components/admin/AdminGalleryTab.tsx": "Admin tab for managing the before/after gallery — allows uploading image pairs with description, service, and location metadata using ExternalBlob, and displays/deletes existing gallery entries.",
+  "frontend/src/components/admin/AdminBookingsTab.tsx": "Admin tab that displays all submitted booking requests in expandable cards showing customer name, service type, location, date, email, phone, and message, with quick reply-by-email and WhatsApp action buttons."
+}
