@@ -1,63 +1,104 @@
 {
   "kind": "build_request",
-  "title": "Add 4-language switcher and dronebase.it media content",
-  "projectName": "Drone X Solutions",
-  "priority": "normal",
+  "title": "Fix text contrast — bright white text across all sections",
+  "priority": "high",
   "requirements": [
     {
-      "id": "REQ-9",
-      "text": "Add a language switcher to the top header bar supporting English, Greek, Russian, and Hebrew. The switcher should display flag icons or language abbreviations and allow users to toggle between all four languages. All visible site text (navigation, hero, services, about, testimonials, contact, booking form labels, footer) must update to the selected language using placeholder/auto-translated text for each locale. The selected language must persist across page navigation (e.g., via localStorage).",
+      "id": "REQ-1",
+      "text": "In ServicesSection.tsx, set all text elements — section label ('WHAT WE DO'), section heading ('Our Services'), subtitle/description text, service card titles, service card description text, and feature labels — to bright white (#FFFFFF). These are currently rendering in a very dark color nearly invisible against the dark background.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-4",
-          "msg-5"
+          "msg-1",
+          "msg-2",
+          "msg-3"
         ],
         "quotes": [
-          "Greek, English, Russian, Israeli language change options",
-          "1. top header language change. 2. placeholder/auto-translated text for now"
+          "keep the dark background but use bright white text everywhere for maximum contrast",
+          "Services section: Headings and body text are nearly invisible against the dark background"
         ]
       },
       "acceptanceCriteria": [
-        "A language switcher is visible in the top header bar on all pages",
-        "Switcher offers four options: English, Greek, Russian, Hebrew",
-        "Selecting a language updates all visible text on the page to the corresponding translation",
-        "Placeholder/auto-translated strings are provided for Greek, Russian, and Hebrew",
-        "Selected language persists in localStorage and is restored on page reload",
-        "Switcher is responsive and accessible on both desktop and mobile views"
+        "The 'WHAT WE DO' label is clearly visible in orange or white",
+        "The 'Our Services' heading renders in bright white (#FFFFFF)",
+        "All service card titles are bright white and legible",
+        "All service card description/body text is bright white and legible against the dark background",
+        "All feature/icon labels are bright white and legible"
       ]
     },
     {
-      "id": "REQ-10",
-      "text": "Enrich the site's media sections (hero, about, services) with drone cleaning imagery and video content sourced from the dronebase.it manufacturer page. Embed or reference relevant product images and video (e.g., via an iframe or direct video URL from dronebase.it) showing the DJI Matrice 400 performing cleaning operations. Place a video showcase block in the About section or a dedicated 'Technology' subsection on the homepage.",
+      "id": "REQ-2",
+      "text": "In Layout.tsx (navigation header), set all nav link text — Services, About, Testimonials, Gallery, Contact — to bright white (#FFFFFF) with sufficient opacity (no gray or muted tones). The logo text and any other header text should also be bright white. This applies to the scrolled/white-background header state as well — either force the header to always remain dark-background, or ensure nav text is dark enough to be visible on a light background.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-4",
-          "msg-5"
+          "msg-1",
+          "msg-2",
+          "msg-3"
         ],
         "quotes": [
-          "add pictures and video from the manufacturer page regarding drone cleaning, dronebase.it"
+          "Navigation: Nav links are gray on white — hard to read",
+          "keep the dark background but use bright white text everywhere for maximum contrast"
         ]
       },
       "acceptanceCriteria": [
-        "At least one video from dronebase.it is embedded or linked on the site (About section or dedicated technology block)",
-        "Drone cleaning images referencing dronebase.it manufacturer content appear in relevant sections (hero, about, or services)",
-        "Video embed is responsive and does not break layout on mobile or desktop",
-        "Media content visually fits the existing dark industrial theme"
+        "All navigation links (Services, About, Testimonials, Gallery, Contact) are clearly visible in all scroll states",
+        "The header background is always dark (no white/transparent state that makes text invisible)",
+        "Nav link text color is bright white (#FFFFFF) or close to it with no gray/muted styling"
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "text": "In AboutSection.tsx, set all text elements — section heading, all body/paragraph text, highlight card labels (Eco-Friendly, Precision Tech, Certified Team, Fast Turnaround) — to bright white (#FFFFFF). These are currently dark-colored and nearly invisible against the dark background.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1",
+          "msg-2",
+          "msg-3"
+        ],
+        "quotes": [
+          "About section: Body text and descriptions blend into the dark background",
+          "keep the dark background but use bright white text everywhere for maximum contrast"
+        ]
+      },
+      "acceptanceCriteria": [
+        "About section heading is bright white and clearly visible",
+        "All body/paragraph text in the About section is bright white (#FFFFFF)",
+        "Highlight card labels (Eco-Friendly, Precision Tech, Certified Team, Fast Turnaround) are bright white and legible"
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "text": "Audit all remaining page sections — HeroSection, TestimonialsSection, GallerySection, BookingForm, ContactSection — and apply bright white (#FFFFFF) to any text that is currently using dark, gray, or muted colors that render poorly on a dark background. Ensure consistent maximum-contrast white text throughout the entire public-facing site.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1",
+          "msg-3"
+        ],
+        "quotes": [
+          "keep the dark background but use bright white text everywhere for maximum contrast"
+        ]
+      },
+      "acceptanceCriteria": [
+        "All headings, body text, labels, and descriptions across Hero, Testimonials, Gallery, Booking Form, and Contact sections are bright white on dark backgrounds",
+        "No text element appears invisible or low-contrast against any dark background",
+        "Orange accent color (#F97316 or equivalent) is preserved for decorative/accent elements"
       ]
     }
   ],
   "constraints": [
-    "Do not modify immutable frontend paths: frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, frontend/src/components/ui",
-    "Language switcher must not require backend changes — all translations are frontend-only with localStorage persistence",
-    "Existing site visual theme (dark navy/charcoal, electric yellow/orange accents) must be preserved"
+    "Do not change the dark background color — keep it as-is",
+    "Preserve orange accent colors for buttons, icons, and decorative highlights",
+    "Do not modify files in frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, or frontend/src/components/ui",
+    "Do not alter backend logic or data models"
   ],
   "nonGoals": [
-    "Professional human translation of site content (placeholder/auto-translated text only)",
-    "Backend storage of language preference",
-    "Downloading or self-hosting dronebase.it media assets (embed/reference only)",
-    "Adding new service types or modifying backend data models"
+    "Switching to a light theme",
+    "Changing the overall color scheme or brand identity",
+    "Adding new sections or features",
+    "Modifying admin panel styling"
   ],
   "imageRequirements": {
     "required": [],

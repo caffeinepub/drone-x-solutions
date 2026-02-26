@@ -22,6 +22,11 @@ export interface GalleryImage {
     description: string;
     location: string;
 }
+export interface SiteTheme {
+    backgroundColor: string;
+    primaryColor: string;
+    accentColor: string;
+}
 export interface Service {
     id: string;
     title: string;
@@ -76,6 +81,7 @@ export interface backendInterface {
     getCallerUserRole(): Promise<UserRole>;
     getHomepageContent(): Promise<HomepageContent>;
     getService(id: string): Promise<Service | null>;
+    getSiteTheme(): Promise<SiteTheme>;
     getTestimonialsByRating(): Promise<Array<Testimonial>>;
     getUserProfile(user: Principal): Promise<UserProfile | null>;
     isCallerAdmin(): Promise<boolean>;
@@ -83,6 +89,7 @@ export interface backendInterface {
     removeService(id: string): Promise<void>;
     removeTestimonial(id: bigint): Promise<void>;
     saveCallerUserProfile(profile: UserProfile): Promise<void>;
+    setSiteTheme(theme: SiteTheme): Promise<void>;
     submitBookingRequest(request: BookingRequest): Promise<bigint>;
     updateGalleryImage(galleryImage: GalleryImage): Promise<void>;
     updateHomepageContent(content: HomepageContent): Promise<void>;

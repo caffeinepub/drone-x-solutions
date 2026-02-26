@@ -1,155 +1,48 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 5,
-  "summary": "Professional website for Drone X Solutions, a drone cleaning business in Cyprus. Features a modern homepage with hero section, services section (windows, solar panels, roofs, hot/cold pressure wash, soft wash, foam, pesticides, paint, pressured air), DJI Matrice 400 fleet info (up to 120m), online booking/quote request form, About Us section, customer testimonials, before/after gallery, WhatsApp redirect, social media links, Cyprus-wide coverage with Google Maps link, and a login-protected admin panel (Internet Identity) for managing images, videos, content, and booking requests. Includes a 4-language switcher (English, Greek, Russian, Hebrew) in the top header bar with placeholder/auto-translated text, and drone cleaning imagery/video content sourced from the dronebase.it manufacturer page.",
+  "projectStateVersion": 3,
+  "summary": "New project",
   "architectural_notes": [
-    "Admin panel protected with Internet Identity login (passkeys/Google/Apple sign-in)",
-    "No pricing calculator in this phase",
-    "Location coverage is all of Cyprus; map shown as address + link to open Google Maps",
-    "Multi-language support: English, Greek, Russian, Hebrew — switcher in top header, placeholder translations used initially"
+    "Dark background with bright white (#FFFFFF) text for maximum contrast; orange accents retained"
   ],
   "known_issues": [],
-  "isFixRequest": false,
+  "isFixRequest": true,
   "existing_features": [
     {
-      "id": "feature-create-a-modern-homepage-with-a-full-screen-hero-section-featuring-the-drone-x-solutions-brand-name-a-compelling-value-proposition-headline-professional-drone-cleaning-services-across-cyprus-and-a-prominent-call-to-action-button-linking-to-the-booking-form",
-      "title": "Create a modern homepage with a full-screen hero section featuring the Drone X Solutions brand name, a compelling value proposition headline (professional drone cleaning services across Cyprus), and a prominent call-to-action button linking to the booking form.",
+      "id": "feature-in-servicessection-tsx-set-all-text-elements-section-label-what-we-do-section-heading-our-services-subtitle-description-text-service-card-titles-service-card-description-text-and-feature-labels-to-bright-white-ffffff-these-are-currently-rendering-in-a-very-dark-color-nearly-invisible-against-the-dark-background",
+      "title": "In ServicesSection.tsx, set all text elements — section label ('WHAT WE DO'), section heading ('Our Services'), subtitle/description text, service card titles, service card description text, and feature labels — to bright white (#FFFFFF). These are currently rendering in a very dark color nearly invisible against the dark background.",
       "reqIds": [
         "REQ-1"
       ],
       "version": 1
     },
     {
-      "id": "feature-build-a-services-section-that-lists-and-describes-all-cleaning-applications-offered-window-cleaning-solar-panel-cleaning-roof-cleaning-hot-pressure-wash-cold-pressure-wash-soft-wash-foam-application-pesticides-paint-application-and-pressured-air-highlight-the-dji-matrice-400-drone-fleet-and-capability-of-cleaning-up-to-120-meters-height-use-service-cards-with-generated-images",
-      "title": "Build a Services section that lists and describes all cleaning applications offered: window cleaning, solar panel cleaning, roof cleaning, hot pressure wash, cold pressure wash, soft wash, foam application, pesticides, paint application, and pressured air. Highlight the DJI Matrice 400 drone fleet and capability of cleaning up to 120 meters height. Use service cards with generated images.",
+      "id": "feature-in-layout-tsx-navigation-header-set-all-nav-link-text-services-about-testimonials-gallery-contact-to-bright-white-ffffff-with-sufficient-opacity-no-gray-or-muted-tones-the-logo-text-and-any-other-header-text-should-also-be-bright-white-this-applies-to-the-scrolled-white-background-header-state-as-well-either-force-the-header-to-always-remain-dark-background-or-ensure-nav-text-is-dark-enough-to-be-visible-on-a-light-background",
+      "title": "In Layout.tsx (navigation header), set all nav link text — Services, About, Testimonials, Gallery, Contact — to bright white (#FFFFFF) with sufficient opacity (no gray or muted tones). The logo text and any other header text should also be bright white. This applies to the scrolled/white-background header state as well — either force the header to always remain dark-background, or ensure nav text is dark enough to be visible on a light background.",
       "reqIds": [
         "REQ-2"
       ],
       "version": 1
     },
     {
-      "id": "feature-implement-an-online-booking-quote-request-form-where-customers-can-enter-their-name-email-phone-number-service-type-dropdown-of-all-services-location-in-cyprus-preferred-date-and-a-message-description-field-form-submissions-must-be-stored-in-the-backend-and-visible-in-the-admin-panel",
-      "title": "Implement an online booking / quote request form where customers can enter their name, email, phone number, service type (dropdown of all services), location in Cyprus, preferred date, and a message/description field. Form submissions must be stored in the backend and visible in the admin panel.",
+      "id": "feature-in-aboutsection-tsx-set-all-text-elements-section-heading-all-body-paragraph-text-highlight-card-labels-eco-friendly-precision-tech-certified-team-fast-turnaround-to-bright-white-ffffff-these-are-currently-dark-colored-and-nearly-invisible-against-the-dark-background",
+      "title": "In AboutSection.tsx, set all text elements — section heading, all body/paragraph text, highlight card labels (Eco-Friendly, Precision Tech, Certified Team, Fast Turnaround) — to bright white (#FFFFFF). These are currently dark-colored and nearly invisible against the dark background.",
       "reqIds": [
         "REQ-3"
       ],
       "version": 1
     },
     {
-      "id": "feature-create-an-about-us-section-highlighting-the-drone-x-solutions-team-the-dji-matrice-400-drone-technology-safety-standards-and-the-company-s-mission-of-delivering-professional-drone-based-cleaning-services-across-cyprus",
-      "title": "Create an About Us section highlighting the Drone X Solutions team, the DJI Matrice 400 drone technology, safety standards, and the company's mission of delivering professional drone-based cleaning services across Cyprus.",
+      "id": "feature-audit-all-remaining-page-sections-herosection-testimonialssection-gallerysection-bookingform-contactsection-and-apply-bright-white-ffffff-to-any-text-that-is-currently-using-dark-gray-or-muted-colors-that-render-poorly-on-a-dark-background-ensure-consistent-maximum-contrast-white-text-throughout-the-entire-public-facing-site",
+      "title": "Audit all remaining page sections — HeroSection, TestimonialsSection, GallerySection, BookingForm, ContactSection — and apply bright white (#FFFFFF) to any text that is currently using dark, gray, or muted colors that render poorly on a dark background. Ensure consistent maximum-contrast white text throughout the entire public-facing site.",
       "reqIds": [
         "REQ-4"
       ],
       "version": 1
-    },
-    {
-      "id": "feature-build-a-testimonials-section-with-placeholder-customer-reviews-and-a-before-after-gallery-section-both-sections-must-be-manageable-from-the-admin-panel-admin-can-add-edit-or-remove-testimonials-and-gallery-images",
-      "title": "Build a Testimonials section with placeholder customer reviews and a before/after gallery section. Both sections must be manageable from the admin panel (admin can add, edit, or remove testimonials and gallery images).",
-      "reqIds": [
-        "REQ-5"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-add-a-contact-section-displaying-company-contact-details-a-statement-of-cyprus-wide-service-coverage-a-link-that-opens-google-maps-for-cyprus-a-whatsapp-redirect-button-with-a-pre-filled-message-and-social-media-icon-links-facebook-instagram-linkedin-placeholders",
-      "title": "Add a Contact section displaying company contact details, a statement of Cyprus-wide service coverage, a link that opens Google Maps for Cyprus, a WhatsApp redirect button with a pre-filled message, and social media icon links (Facebook, Instagram, LinkedIn placeholders).",
-      "reqIds": [
-        "REQ-6"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-implement-a-login-protected-admin-panel-using-internet-identity-authentication-the-admin-panel-must-allow-the-authenticated-owner-to-update-homepage-hero-text-and-images-manage-service-descriptions-and-images-add-edit-remove-testimonials-upload-remove-before-after-gallery-images-and-view-all-submitted-booking-quote-requests",
-      "title": "Implement a login-protected admin panel using Internet Identity authentication. The admin panel must allow the authenticated owner to: update homepage hero text and images, manage service descriptions and images, add/edit/remove testimonials, upload/remove before/after gallery images, and view all submitted booking/quote requests.",
-      "reqIds": [
-        "REQ-7"
-      ],
-      "version": 1
-    },
-    {
-      "id": "feature-apply-a-bold-industrial-modern-visual-theme-across-the-entire-site-dark-navy-charcoal-backgrounds-with-electric-yellow-or-vivid-orange-accent-colors-strong-sans-serif-typography-large-imagery-and-clean-grid-based-layouts-the-design-should-convey-precision-power-and-professionalism-fitting-a-high-tech-drone-services-company",
-      "title": "Apply a bold, industrial-modern visual theme across the entire site: dark navy/charcoal backgrounds with electric yellow or vivid orange accent colors, strong sans-serif typography, large imagery, and clean grid-based layouts. The design should convey precision, power, and professionalism fitting a high-tech drone services company.",
-      "reqIds": [
-        "REQ-8"
-      ],
-      "version": 1
     }
   ],
-  "new_feature_requests": [
-    {
-      "id": "AR-1",
-      "summary": "Modern homepage with hero section showcasing DJI Matrice 400 drones in action and value proposition",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-2",
-      "summary": "Services section covering windows, solar panels, roofs, hot/cold pressure wash, soft wash, foam, pesticides, paint, pressured air (up to 120m)",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-3",
-      "summary": "Online booking/quote request form for customers",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-4",
-      "summary": "About Us section highlighting team, technology, and safety standards",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-5",
-      "summary": "Customer testimonials and before/after gallery",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-6",
-      "summary": "Contact info, Cyprus-wide coverage with Google Maps link, WhatsApp redirect button, and social media links",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-7",
-      "summary": "Login-protected admin panel (Internet Identity) to manage images, videos, content, and booking requests",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-8",
-      "summary": "4-language switcher (English, Greek, Russian, Hebrew) in top header bar with placeholder/auto-translated text",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-9",
-      "summary": "Embed/reference drone cleaning images and video content from dronebase.it manufacturer page to enrich site media sections",
-      "reqIds": [],
-      "status": "pending"
-    },
-    {
-      "id": "AR-10",
-      "summary": "Add a language switcher to the top header bar supporting English, Greek, Russian, and Hebrew. The switcher should display flag icons or language abbreviations and allow users to toggle between all four languages. All visible site text (navigation, hero, services, about, testimonials, contact, booking form labels, footer) must update to the selected language using placeholder/auto-translated text for each locale. The selected language must persist across page navigation (e.g., via localStorage).",
-      "reqIds": [
-        "REQ-9"
-      ],
-      "status": "pending"
-    },
-    {
-      "id": "AR-11",
-      "summary": "Enrich the site's media sections (hero, about, services) with drone cleaning imagery and video content sourced from the dronebase.it manufacturer page. Embed or reference relevant product images and video (e.g., via an iframe or direct video URL from dronebase.it) showing the DJI Matrice 400 performing cleaning operations. Place a video showcase block in the About section or a dedicated 'Technology' subsection on the homepage.",
-      "reqIds": [
-        "REQ-10"
-      ],
-      "status": "pending"
-    }
-  ],
-  "gameProjectType": "none",
-  "projectName": "Drone X Solutions",
+  "new_feature_requests": [],
+  "projectName": "Fix text contrast — bright white text across all sections",
   "clarification_mode": "instant",
   "clarification_rounds": 0
 }

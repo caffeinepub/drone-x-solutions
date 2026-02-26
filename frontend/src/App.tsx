@@ -1,21 +1,47 @@
-import React from 'react';
-import { createRouter, createRoute, createRootRoute, RouterProvider, Outlet } from '@tanstack/react-router';
+import { RouterProvider, createRouter, createRoute, createRootRoute, Outlet } from '@tanstack/react-router';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Layout from './components/Layout';
 import HomePage from './pages/HomePage';
 import AdminPanel from './pages/AdminPanel';
+import AdminLoginPage from './pages/AdminLoginPage';
+import { useThemeLoader } from './hooks/useThemeLoader';
 
-const rootRoute = createRootRoute({
-  component: () => (
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      staleTime: 30000,
+    },
+  },
+});
+
+function AppWithTheme() {
+  useThemeLoader();
+  return (
     <Layout>
       <Outlet />
     </Layout>
+  );
+}
+
+const rootRoute = createRootRoute({
+  component: () => (
+    <QueryClientProvider client={queryClient}>
+      <AppWithTheme />
+    </QueryClientProvider>
   ),
 });
 
-const indexRoute = createRoute({
+const homeRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/',
   component: HomePage,
+});
+
+const adminLoginRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/admin/login',
+  component: AdminLoginPage,
 });
 
 const adminRoute = createRoute({
@@ -24,7 +50,7 @@ const adminRoute = createRoute({
   component: AdminPanel,
 });
 
-const routeTree = rootRoute.addChildren([indexRoute, adminRoute]);
+const routeTree = rootRoute.addChildren([homeRoute, adminLoginRoute, adminRoute]);
 
 const router = createRouter({ routeTree });
 

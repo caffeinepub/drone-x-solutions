@@ -101,6 +101,11 @@ export interface GalleryImage {
     description: string;
     location: string;
 }
+export interface SiteTheme {
+    backgroundColor: string;
+    primaryColor: string;
+    accentColor: string;
+}
 export interface _CaffeineStorageRefillInformation {
     proposed_top_up_amount?: bigint;
 }
@@ -169,6 +174,7 @@ export interface backendInterface {
     getCallerUserRole(): Promise<UserRole>;
     getHomepageContent(): Promise<HomepageContent>;
     getService(id: string): Promise<Service | null>;
+    getSiteTheme(): Promise<SiteTheme>;
     getTestimonialsByRating(): Promise<Array<Testimonial>>;
     getUserProfile(user: Principal): Promise<UserProfile | null>;
     isCallerAdmin(): Promise<boolean>;
@@ -176,6 +182,7 @@ export interface backendInterface {
     removeService(id: string): Promise<void>;
     removeTestimonial(id: bigint): Promise<void>;
     saveCallerUserProfile(profile: UserProfile): Promise<void>;
+    setSiteTheme(theme: SiteTheme): Promise<void>;
     submitBookingRequest(request: BookingRequest): Promise<bigint>;
     updateGalleryImage(galleryImage: GalleryImage): Promise<void>;
     updateHomepageContent(content: HomepageContent): Promise<void>;
@@ -451,6 +458,20 @@ export class Backend implements backendInterface {
             return from_candid_opt_n33(this._uploadFile, this._downloadFile, result);
         }
     }
+    async getSiteTheme(): Promise<SiteTheme> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.getSiteTheme();
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.getSiteTheme();
+            return result;
+        }
+    }
     async getTestimonialsByRating(): Promise<Array<Testimonial>> {
         if (this.processError) {
             try {
@@ -546,6 +567,20 @@ export class Backend implements backendInterface {
             }
         } else {
             const result = await this.actor.saveCallerUserProfile(arg0);
+            return result;
+        }
+    }
+    async setSiteTheme(arg0: SiteTheme): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.setSiteTheme(arg0);
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.setSiteTheme(arg0);
             return result;
         }
     }

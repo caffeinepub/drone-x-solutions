@@ -1,13 +1,11 @@
-import { useIsCallerAdmin } from './useQueries';
-import { useInternetIdentity } from './useInternetIdentity';
+import { useAdminSession } from './useAdminSession';
 
 export function useAdminCheck() {
-  const { identity } = useInternetIdentity();
-  const { data: isAdmin, isLoading } = useIsCallerAdmin();
+  const { isAdminAuthenticated } = useAdminSession();
 
   return {
-    isAdmin: !!isAdmin,
-    isLoading,
-    isAuthenticated: !!identity,
+    isAdmin: isAdminAuthenticated,
+    isLoading: false,
+    isAuthenticated: isAdminAuthenticated,
   };
 }

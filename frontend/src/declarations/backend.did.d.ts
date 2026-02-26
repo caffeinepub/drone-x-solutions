@@ -42,6 +42,11 @@ export interface Service {
   'description' : string,
   'image' : [] | [ExternalBlob],
 }
+export interface SiteTheme {
+  'backgroundColor' : string,
+  'primaryColor' : string,
+  'accentColor' : string,
+}
 export interface Testimonial {
   'id' : bigint,
   'service' : string,
@@ -95,6 +100,7 @@ export interface _SERVICE {
   'getCallerUserRole' : ActorMethod<[], UserRole>,
   'getHomepageContent' : ActorMethod<[], HomepageContent>,
   'getService' : ActorMethod<[string], [] | [Service]>,
+  'getSiteTheme' : ActorMethod<[], SiteTheme>,
   'getTestimonialsByRating' : ActorMethod<[], Array<Testimonial>>,
   'getUserProfile' : ActorMethod<[Principal], [] | [UserProfile]>,
   'isCallerAdmin' : ActorMethod<[], boolean>,
@@ -102,6 +108,7 @@ export interface _SERVICE {
   'removeService' : ActorMethod<[string], undefined>,
   'removeTestimonial' : ActorMethod<[bigint], undefined>,
   'saveCallerUserProfile' : ActorMethod<[UserProfile], undefined>,
+  'setSiteTheme' : ActorMethod<[SiteTheme], undefined>,
   'submitBookingRequest' : ActorMethod<[BookingRequest], bigint>,
   'updateGalleryImage' : ActorMethod<[GalleryImage], undefined>,
   'updateHomepageContent' : ActorMethod<[HomepageContent], undefined>,

@@ -1,239 +1,237 @@
 import React, { useState } from 'react';
-import { CalendarDays, CheckCircle2, Loader2, Send } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useSubmitBookingRequest, useGetAllServices } from '../hooks/useQueries';
+import { CheckCircle2, Loader2 } from 'lucide-react';
+import { useTranslation } from '../hooks/useTranslation';
+import { useSubmitBookingRequest } from '../hooks/useQueries';
 
-const DEFAULT_SERVICE_OPTIONS = [
-  'Window Cleaning',
+const SERVICE_OPTIONS = [
   'Solar Panel Cleaning',
-  'Roof Cleaning',
-  'Hot Pressure Wash',
-  'Cold Pressure Wash',
-  'Soft Wash',
-  'Foam Application',
-  'Pesticide Application',
-  'Paint Application',
-  'Pressured Air',
+  'Window & Facade Cleaning',
+  'Roof & Gutter Cleaning',
+  'Industrial Surface Cleaning',
+  'Wind Turbine Cleaning',
+  'Water Tank Inspection & Clean',
+  'Other',
 ];
 
+interface FormData {
+  name: string;
+  email: string;
+  phone: string;
+  location: string;
+  serviceType: string;
+  preferredDate: string;
+  message: string;
+}
+
+const EMPTY_FORM: FormData = {
+  name: '',
+  email: '',
+  phone: '',
+  location: '',
+  serviceType: '',
+  preferredDate: '',
+  message: '',
+};
+
 export default function BookingForm() {
-  const { data: services } = useGetAllServices();
+  const { t } = useTranslation();
+  const [form, setForm] = useState<FormData>(EMPTY_FORM);
+  const [errors, setErrors] = useState<Partial<FormData>>({});
+  const [submitted, setSubmitted] = useState(false);
   const submitMutation = useSubmitBookingRequest();
 
-  const [form, setForm] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    serviceType: '',
-    location: '',
-    preferredDate: '',
-    message: '',
-  });
-  const [submitted, setSubmitted] = useState(false);
-
-  const serviceOptions = services && services.length > 0
-    ? services.map((s) => s.title)
-    : DEFAULT_SERVICE_OPTIONS;
-
-  const handleChange = (field: string, value: string) => {
-    setForm((prev) => ({ ...prev, [field]: value }));
+  const validate = (): boolean => {
+    const newErrors: Partial<FormData> = {};
+    if (!form.name.trim()) newErrors.name = t('booking.required');
+    if (!form.email.trim()) newErrors.email = t('booking.required');
+    if (!form.phone.trim()) newErrors.phone = t('booking.required');
+    if (!form.location.trim()) newErrors.location = t('booking.required');
+    if (!form.serviceType) newErrors.serviceType = t('booking.required');
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.name || !form.email || !form.serviceType || !form.location) return;
+    if (!validate()) return;
 
     try {
       await submitMutation.mutateAsync({
-        id: BigInt(0),
+        id: 0n,
         name: form.name,
         email: form.email,
         phone: form.phone,
-        serviceType: form.serviceType,
         location: form.location,
+        serviceType: form.serviceType,
         preferredDate: form.preferredDate,
         message: form.message,
       });
       setSubmitted(true);
+      setForm(EMPTY_FORM);
     } catch (err) {
-      console.error('Booking submission failed:', err);
+      // Error handled by mutation state
     }
   };
 
+  const inputClass = (field: keyof FormData) =>
+    `w-full bg-steel-800 border ${errors[field] ? 'border-destructive' : 'border-border'} rounded px-3 py-2.5 text-white placeholder-white/40 focus:outline-none focus:border-amber-500 transition-colors text-sm`;
+
+  const labelClass = 'block text-sm font-medium text-white mb-1.5';
+
   if (submitted) {
     return (
-      <section id="booking" className="py-24 bg-secondary">
-        <div className="container mx-auto px-4 max-w-2xl text-center">
-          <div className="w-20 h-20 rounded-full bg-accent-yellow/10 flex items-center justify-center mx-auto mb-6">
-            <CheckCircle2 className="w-10 h-10 text-accent-yellow" />
+      <section id="booking" className="py-20 bg-steel-800">
+        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="bg-card border border-success/30 rounded-lg p-12">
+            <CheckCircle2 className="w-16 h-16 text-success mx-auto mb-4" />
+            <h3 className="font-display text-2xl font-800 text-white mb-3">
+              {t('booking.success')}
+            </h3>
+            <p className="text-white/75 mb-6">{t('booking.successMsg')}</p>
+            <button
+              onClick={() => setSubmitted(false)}
+              className="bg-amber-500 hover:bg-amber-400 text-steel-900 font-display font-700 px-6 py-2.5 rounded transition-colors"
+            >
+              Submit Another Request
+            </button>
           </div>
-          <h2 className="font-display font-black text-3xl text-foreground mb-4">Request Received!</h2>
-          <p className="text-muted-foreground text-lg mb-6">
-            Thank you for contacting Drone X Solutions. Our team will get back to you within 24 hours to discuss your cleaning needs.
-          </p>
-          <Button
-            onClick={() => setSubmitted(false)}
-            variant="outline"
-            className="border-accent-yellow text-accent-yellow hover:bg-accent-yellow/10"
-          >
-            Submit Another Request
-          </Button>
         </div>
       </section>
     );
   }
 
   return (
-    <section id="booking" className="py-24 bg-secondary">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start max-w-6xl mx-auto">
-          {/* Left: Info */}
-          <div>
-            <div className="inline-flex items-center gap-2 bg-accent-yellow/10 border border-accent-yellow/30 rounded-full px-4 py-1.5 mb-4">
-              <span className="text-accent-yellow text-xs font-semibold uppercase tracking-widest">Get Started</span>
-            </div>
-            <h2 className="font-display font-black text-4xl md:text-5xl text-foreground mb-4">
-              Request a <span className="text-gradient-yellow">Free Quote</span>
-            </h2>
-            <p className="text-muted-foreground text-lg mb-8 leading-relaxed">
-              Tell us about your project and we'll provide a tailored quote for your drone cleaning needs anywhere in Cyprus.
-            </p>
-            <div className="accent-line mb-8" />
-            <div className="space-y-4">
-              {[
-                { icon: '🚁', title: 'Fast Response', desc: 'We reply within 24 hours' },
-                { icon: '📍', title: 'All Cyprus Coverage', desc: 'We operate island-wide' },
-                { icon: '✅', title: 'Free Assessment', desc: 'No obligation quotes' },
-              ].map((item) => (
-                <div key={item.title} className="flex items-start gap-4">
-                  <span className="text-2xl">{item.icon}</span>
-                  <div>
-                    <div className="font-display font-bold text-foreground text-sm">{item.title}</div>
-                    <div className="text-muted-foreground text-sm">{item.desc}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
+    <section id="booking" className="py-20 bg-steel-800">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className="text-center mb-10">
+          <div className="inline-block bg-amber-500/10 border border-amber-500/30 rounded px-3 py-1 mb-4">
+            <span className="text-amber-500 text-xs font-display font-700 uppercase tracking-widest">
+              Free Quote
+            </span>
           </div>
-
-          {/* Right: Form */}
-          <div className="bg-card border border-border rounded-sm p-6 md:p-8">
-            <form onSubmit={handleSubmit} className="space-y-5">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-1.5">
-                  <Label htmlFor="name" className="text-sm font-semibold text-foreground">Full Name *</Label>
-                  <Input
-                    id="name"
-                    value={form.name}
-                    onChange={(e) => handleChange('name', e.target.value)}
-                    placeholder="John Smith"
-                    required
-                    className="bg-secondary border-border"
-                  />
-                </div>
-                <div className="space-y-1.5">
-                  <Label htmlFor="phone" className="text-sm font-semibold text-foreground">Phone Number</Label>
-                  <Input
-                    id="phone"
-                    value={form.phone}
-                    onChange={(e) => handleChange('phone', e.target.value)}
-                    placeholder="+357 99 000 000"
-                    className="bg-secondary border-border"
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-1.5">
-                <Label htmlFor="email" className="text-sm font-semibold text-foreground">Email Address *</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  value={form.email}
-                  onChange={(e) => handleChange('email', e.target.value)}
-                  placeholder="john@example.com"
-                  required
-                  className="bg-secondary border-border"
-                />
-              </div>
-
-              <div className="space-y-1.5">
-                <Label className="text-sm font-semibold text-foreground">Service Type *</Label>
-                <Select onValueChange={(val) => handleChange('serviceType', val)} required>
-                  <SelectTrigger className="bg-secondary border-border">
-                    <SelectValue placeholder="Select a service..." />
-                  </SelectTrigger>
-                  <SelectContent className="bg-card border-border">
-                    {serviceOptions.map((opt) => (
-                      <SelectItem key={opt} value={opt} className="text-foreground hover:bg-secondary">
-                        {opt}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-1.5">
-                <Label htmlFor="location" className="text-sm font-semibold text-foreground">Location in Cyprus *</Label>
-                <Input
-                  id="location"
-                  value={form.location}
-                  onChange={(e) => handleChange('location', e.target.value)}
-                  placeholder="e.g. Limassol, Nicosia, Paphos..."
-                  required
-                  className="bg-secondary border-border"
-                />
-              </div>
-
-              <div className="space-y-1.5">
-                <Label htmlFor="date" className="text-sm font-semibold text-foreground">
-                  <CalendarDays className="w-4 h-4 inline mr-1" />
-                  Preferred Date
-                </Label>
-                <Input
-                  id="date"
-                  type="date"
-                  value={form.preferredDate}
-                  onChange={(e) => handleChange('preferredDate', e.target.value)}
-                  className="bg-secondary border-border"
-                />
-              </div>
-
-              <div className="space-y-1.5">
-                <Label htmlFor="message" className="text-sm font-semibold text-foreground">Additional Details</Label>
-                <Textarea
-                  id="message"
-                  value={form.message}
-                  onChange={(e) => handleChange('message', e.target.value)}
-                  placeholder="Describe your property, surface area, specific requirements..."
-                  rows={4}
-                  className="bg-secondary border-border resize-none"
-                />
-              </div>
-
-              {submitMutation.isError && (
-                <p className="text-destructive text-sm">
-                  Failed to submit request. Please try again.
-                </p>
-              )}
-
-              <Button
-                type="submit"
-                disabled={submitMutation.isPending}
-                className="w-full bg-accent-yellow text-navy-dark hover:bg-accent-yellow/90 font-display font-bold text-base py-6 rounded-sm"
-              >
-                {submitMutation.isPending ? (
-                  <><Loader2 className="w-5 h-5 mr-2 animate-spin" /> Submitting...</>
-                ) : (
-                  <><Send className="w-5 h-5 mr-2" /> Submit Request</>
-                )}
-              </Button>
-            </form>
-          </div>
+          <h2 className="font-display text-3xl sm:text-4xl font-800 text-white mb-3">
+            {t('booking.title')}
+          </h2>
+          <p className="text-white/75">{t('booking.subtitle')}</p>
         </div>
+
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="bg-card border border-border rounded-lg p-6 sm:p-8 space-y-5">
+          {/* Name + Email */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+              <label className={labelClass}>{t('booking.name')} *</label>
+              <input
+                type="text"
+                value={form.name}
+                onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
+                placeholder={t('booking.namePlaceholder')}
+                className={inputClass('name')}
+              />
+              {errors.name && <p className="text-destructive text-xs mt-1">{errors.name}</p>}
+            </div>
+            <div>
+              <label className={labelClass}>{t('booking.email')} *</label>
+              <input
+                type="email"
+                value={form.email}
+                onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
+                placeholder={t('booking.emailPlaceholder')}
+                className={inputClass('email')}
+              />
+              {errors.email && <p className="text-destructive text-xs mt-1">{errors.email}</p>}
+            </div>
+          </div>
+
+          {/* Phone + Location */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+              <label className={labelClass}>{t('booking.phone')} *</label>
+              <input
+                type="tel"
+                value={form.phone}
+                onChange={e => setForm(f => ({ ...f, phone: e.target.value }))}
+                placeholder={t('booking.phonePlaceholder')}
+                className={inputClass('phone')}
+              />
+              {errors.phone && <p className="text-destructive text-xs mt-1">{errors.phone}</p>}
+            </div>
+            <div>
+              <label className={labelClass}>{t('booking.location')} *</label>
+              <input
+                type="text"
+                value={form.location}
+                onChange={e => setForm(f => ({ ...f, location: e.target.value }))}
+                placeholder={t('booking.locationPlaceholder')}
+                className={inputClass('location')}
+              />
+              {errors.location && <p className="text-destructive text-xs mt-1">{errors.location}</p>}
+            </div>
+          </div>
+
+          {/* Service Type */}
+          <div>
+            <label className={labelClass}>{t('booking.service')} *</label>
+            <select
+              value={form.serviceType}
+              onChange={e => setForm(f => ({ ...f, serviceType: e.target.value }))}
+              className={`${inputClass('serviceType')} cursor-pointer`}
+            >
+              <option value="" className="bg-steel-800 text-white/50">{t('booking.selectService')}</option>
+              {SERVICE_OPTIONS.map(opt => (
+                <option key={opt} value={opt} className="bg-steel-800 text-white">{opt}</option>
+              ))}
+            </select>
+            {errors.serviceType && <p className="text-destructive text-xs mt-1">{errors.serviceType}</p>}
+          </div>
+
+          {/* Preferred Date */}
+          <div>
+            <label className={labelClass}>{t('booking.date')}</label>
+            <input
+              type="date"
+              value={form.preferredDate}
+              onChange={e => setForm(f => ({ ...f, preferredDate: e.target.value }))}
+              className={inputClass('preferredDate')}
+              min={new Date().toISOString().split('T')[0]}
+            />
+          </div>
+
+          {/* Message */}
+          <div>
+            <label className={labelClass}>{t('booking.message')}</label>
+            <textarea
+              value={form.message}
+              onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
+              placeholder={t('booking.messagePlaceholder')}
+              rows={4}
+              className={`${inputClass('message')} resize-none`}
+            />
+          </div>
+
+          {/* Submit */}
+          <button
+            type="submit"
+            disabled={submitMutation.isPending}
+            className="w-full bg-amber-500 hover:bg-amber-400 disabled:opacity-60 text-steel-900 font-display font-700 text-base py-3.5 rounded transition-all flex items-center justify-center gap-2"
+          >
+            {submitMutation.isPending ? (
+              <>
+                <Loader2 className="w-5 h-5 animate-spin" />
+                {t('booking.submitting')}
+              </>
+            ) : (
+              t('booking.submit')
+            )}
+          </button>
+
+          {submitMutation.isError && (
+            <p className="text-destructive text-sm text-center">
+              Something went wrong. Please try again.
+            </p>
+          )}
+        </form>
       </div>
     </section>
   );

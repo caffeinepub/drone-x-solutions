@@ -1,4 +1,89 @@
 {
   "kind": "feature_evidence_report",
-  "features": []
+  "features": [
+    {
+      "featureId": "feature-in-servicessection-tsx-set-all-text-elements-section-label-what-we-do-section-heading-our-services-subtitle-description-text-service-card-titles-service-card-description-text-and-feature-labels-to-bright-white-ffffff-these-are-currently-rendering-in-a-very-dark-color-nearly-invisible-against-the-dark-background",
+      "featureTitle": "In ServicesSection.tsx, set all text elements — section label ('WHAT WE DO'), section heading ('Our Services'), subtitle/description text, service card titles, service card description text, and feature labels — to bright white (#FFFFFF). These are currently rendering in a very dark color nearly invisible against the dark background.",
+      "files": [
+        "frontend/src/components/ServicesSection.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-in-layout-tsx-navigation-header-set-all-nav-link-text-services-about-testimonials-gallery-contact-to-bright-white-ffffff-with-sufficient-opacity-no-gray-or-muted-tones-the-logo-text-and-any-other-header-text-should-also-be-bright-white-this-applies-to-the-scrolled-white-background-header-state-as-well-either-force-the-header-to-always-remain-dark-background-or-ensure-nav-text-is-dark-enough-to-be-visible-on-a-light-background",
+      "featureTitle": "In Layout.tsx (navigation header), set all nav link text — Services, About, Testimonials, Gallery, Contact — to bright white (#FFFFFF) with sufficient opacity (no gray or muted tones). The logo text and any other header text should also be bright white. This applies to the scrolled/white-background header state as well — either force the header to always remain dark-background, or ensure nav text is dark enough to be visible on a light background.",
+      "files": [
+        "frontend/src/components/Layout.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-2"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-in-aboutsection-tsx-set-all-text-elements-section-heading-all-body-paragraph-text-highlight-card-labels-eco-friendly-precision-tech-certified-team-fast-turnaround-to-bright-white-ffffff-these-are-currently-dark-colored-and-nearly-invisible-against-the-dark-background",
+      "featureTitle": "In AboutSection.tsx, set all text elements — section heading, all body/paragraph text, highlight card labels (Eco-Friendly, Precision Tech, Certified Team, Fast Turnaround) — to bright white (#FFFFFF). These are currently dark-colored and nearly invisible against the dark background.",
+      "files": [
+        "frontend/src/components/AboutSection.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-audit-all-remaining-page-sections-herosection-testimonialssection-gallerysection-bookingform-contactsection-and-apply-bright-white-ffffff-to-any-text-that-is-currently-using-dark-gray-or-muted-colors-that-render-poorly-on-a-dark-background-ensure-consistent-maximum-contrast-white-text-throughout-the-entire-public-facing-site",
+      "featureTitle": "Audit all remaining page sections — HeroSection, TestimonialsSection, GallerySection, BookingForm, ContactSection — and apply bright white (#FFFFFF) to any text that is currently using dark, gray, or muted colors that render poorly on a dark background. Ensure consistent maximum-contrast white text throughout the entire public-facing site.",
+      "files": [
+        "frontend/src/components/BookingForm.tsx",
+        "frontend/src/components/ContactSection.tsx",
+        "frontend/src/components/GallerySection.tsx",
+        "frontend/src/components/HeroSection.tsx",
+        "frontend/src/components/TestimonialsSection.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-4"
+      ],
+      "confidence": "high"
+    }
+  ]
 }

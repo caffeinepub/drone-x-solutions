@@ -26,6 +26,18 @@ const DEFAULT_SERVICES: Service[] = [
   { id: 'pressured-air', title: 'Pressured Air', description: 'High-velocity air cleaning for dust removal, ventilation systems, and dry surface cleaning.' },
 ];
 
+/**
+ * Safely get a direct URL from an ExternalBlob-like object.
+ * Guards against plain objects that don't have the getDirectURL method.
+ */
+function getImageUrl(image: ExternalBlob | undefined | null): string | null {
+  if (!image) return null;
+  if (typeof (image as ExternalBlob).getDirectURL === 'function') {
+    return (image as ExternalBlob).getDirectURL();
+  }
+  return null;
+}
+
 interface ServiceFormState {
   id: string;
   title: string;
@@ -109,41 +121,54 @@ export default function AdminServicesTab() {
         <div className="flex justify-center py-8"><Loader2 className="w-6 h-6 animate-spin text-accent-yellow" /></div>
       ) : (
         <div className="space-y-3">
-          {displayServices.map((service) => (
-            <div key={service.id}>
-              {editingId === service.id ? (
-                <ServiceForm
-                  form={form}
-                  setForm={setForm}
-                  onSave={handleSave}
-                  onCancel={() => setEditingId(null)}
-                  isSaving={isSaving}
-                  uploadProgress={uploadProgress}
-                />
-              ) : (
-                <div className="bg-card border border-border rounded-sm p-4 flex items-start justify-between gap-4">
-                  <div className="flex-1 min-w-0">
-                    <div className="font-display font-bold text-sm text-foreground">{service.title}</div>
-                    <div className="text-xs text-muted-foreground mt-1 line-clamp-2">{service.description}</div>
+          {displayServices.map((service) => {
+            const existingImageUrl = getImageUrl(service.image);
+            return (
+              <div key={service.id}>
+                {editingId === service.id ? (
+                  <ServiceForm
+                    form={form}
+                    setForm={setForm}
+                    onSave={handleSave}
+                    onCancel={() => setEditingId(null)}
+                    isSaving={isSaving}
+                    uploadProgress={uploadProgress}
+                    existingImageUrl={existingImageUrl}
+                  />
+                ) : (
+                  <div className="bg-card border border-border rounded-sm p-4 flex items-start justify-between gap-4">
+                    <div className="flex items-start gap-3 flex-1 min-w-0">
+                      {existingImageUrl && (
+                        <img
+                          src={existingImageUrl}
+                          alt={service.title}
+                          className="w-10 h-10 object-contain rounded flex-shrink-0"
+                        />
+                      )}
+                      <div className="flex-1 min-w-0">
+                        <div className="font-display font-bold text-sm text-foreground">{service.title}</div>
+                        <div className="text-xs text-muted-foreground mt-1 line-clamp-2">{service.description}</div>
+                      </div>
+                    </div>
+                    <div className="flex gap-2 flex-shrink-0">
+                      <Button size="sm" variant="outline" onClick={() => handleEdit(service)} className="border-border h-8 w-8 p-0">
+                        <Pencil className="w-3.5 h-3.5" />
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => handleRemove(service.id)}
+                        disabled={removeMutation.isPending}
+                        className="border-destructive/50 text-destructive hover:bg-destructive/10 h-8 w-8 p-0"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </Button>
+                    </div>
                   </div>
-                  <div className="flex gap-2 flex-shrink-0">
-                    <Button size="sm" variant="outline" onClick={() => handleEdit(service)} className="border-border h-8 w-8 p-0">
-                      <Pencil className="w-3.5 h-3.5" />
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={() => handleRemove(service.id)}
-                      disabled={removeMutation.isPending}
-                      className="border-destructive/50 text-destructive hover:bg-destructive/10 h-8 w-8 p-0"
-                    >
-                      <Trash2 className="w-3.5 h-3.5" />
-                    </Button>
-                  </div>
-                </div>
-              )}
-            </div>
-          ))}
+                )}
+              </div>
+            );
+          })}
         </div>
       )}
     </div>
@@ -158,9 +183,10 @@ interface ServiceFormProps {
   isSaving: boolean;
   uploadProgress: number;
   isNew?: boolean;
+  existingImageUrl?: string | null;
 }
 
-function ServiceForm({ form, setForm, onSave, onCancel, isSaving, uploadProgress, isNew }: ServiceFormProps) {
+function ServiceForm({ form, setForm, onSave, onCancel, isSaving, uploadProgress, isNew, existingImageUrl }: ServiceFormProps) {
   return (
     <div className="bg-secondary border border-accent-yellow/30 rounded-sm p-4 space-y-3">
       {isNew && (
@@ -193,6 +219,12 @@ function ServiceForm({ form, setForm, onSave, onCancel, isSaving, uploadProgress
       </div>
       <div className="space-y-1">
         <Label className="text-xs font-semibold">Image (optional)</Label>
+        {existingImageUrl && !form.imageFile && (
+          <div className="mb-1">
+            <img src={existingImageUrl} alt="Current" className="w-12 h-12 object-contain rounded border border-border" />
+            <span className="text-xs text-muted-foreground">Current image</span>
+          </div>
+        )}
         <label className="flex items-center gap-2 cursor-pointer bg-card border border-border rounded-sm px-3 py-1.5 text-xs text-muted-foreground hover:text-foreground w-fit">
           <Upload className="w-3.5 h-3.5" />
           {form.imageFile ? form.imageFile.name : 'Choose image...'}

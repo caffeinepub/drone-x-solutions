@@ -1,16 +1,17 @@
-import Array "mo:core/Array";
 import List "mo:core/List";
-import Text "mo:core/Text";
 import Map "mo:core/Map";
-import Order "mo:core/Order";
+import Text "mo:core/Text";
 import Int "mo:core/Int";
 import Iter "mo:core/Iter";
+import Order "mo:core/Order";
 import Runtime "mo:core/Runtime";
 import Principal "mo:core/Principal";
 import MixinStorage "blob-storage/Mixin";
 import Storage "blob-storage/Storage";
 import MixinAuthorization "authorization/MixinAuthorization";
 import AccessControl "authorization/access-control";
+
+
 
 actor {
   public type HomepageContent = {
@@ -19,6 +20,12 @@ actor {
     heroImage : ?Storage.ExternalBlob;
     aboutText : Text;
     ctaText : Text;
+  };
+
+  public type SiteTheme = {
+    primaryColor : Text;
+    accentColor : Text;
+    backgroundColor : Text;
   };
 
   let homepageContent : List.List<HomepageContent> = List.empty();
@@ -72,6 +79,12 @@ actor {
   var nextId = 0;
   let bookingRequests = List.empty<BookingRequest>();
   let userProfiles = Map.empty<Principal, UserProfile>();
+
+  var siteTheme : SiteTheme = {
+    primaryColor = "#F26522";
+    accentColor = "#FFD700";
+    backgroundColor = "#181818";
+  };
 
   include MixinStorage();
   let accessControlState = AccessControl.initState();
@@ -237,5 +250,18 @@ actor {
       Runtime.trap("Unauthorized: Only admins can remove gallery images");
     };
     galleryImages.remove(id);
+  };
+
+  // ── NEW: Theme management ─────────────────────────────────────────
+
+  public query ({ caller }) func getSiteTheme() : async SiteTheme {
+    siteTheme;
+  };
+
+  public shared ({ caller }) func setSiteTheme(theme : SiteTheme) : async () {
+    if (not (AccessControl.isAdmin(accessControlState, caller))) {
+      Runtime.trap("Unauthorized: Only admins can change the site theme");
+    };
+    siteTheme := theme;
   };
 };

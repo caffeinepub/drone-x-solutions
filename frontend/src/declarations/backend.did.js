@@ -69,6 +69,11 @@ export const HomepageContent = IDL.Record({
   'aboutText' : IDL.Text,
   'heroTitle' : IDL.Text,
 });
+export const SiteTheme = IDL.Record({
+  'backgroundColor' : IDL.Text,
+  'primaryColor' : IDL.Text,
+  'accentColor' : IDL.Text,
+});
 
 export const idlService = IDL.Service({
   '_caffeineStorageBlobIsLive' : IDL.Func(
@@ -110,6 +115,7 @@ export const idlService = IDL.Service({
   'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
   'getHomepageContent' : IDL.Func([], [HomepageContent], ['query']),
   'getService' : IDL.Func([IDL.Text], [IDL.Opt(Service)], ['query']),
+  'getSiteTheme' : IDL.Func([], [SiteTheme], ['query']),
   'getTestimonialsByRating' : IDL.Func([], [IDL.Vec(Testimonial)], ['query']),
   'getUserProfile' : IDL.Func(
       [IDL.Principal],
@@ -121,6 +127,7 @@ export const idlService = IDL.Service({
   'removeService' : IDL.Func([IDL.Text], [], []),
   'removeTestimonial' : IDL.Func([IDL.Int], [], []),
   'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
+  'setSiteTheme' : IDL.Func([SiteTheme], [], []),
   'submitBookingRequest' : IDL.Func([BookingRequest], [IDL.Int], []),
   'updateGalleryImage' : IDL.Func([GalleryImage], [], []),
   'updateHomepageContent' : IDL.Func([HomepageContent], [], []),
@@ -189,6 +196,11 @@ export const idlFactory = ({ IDL }) => {
     'aboutText' : IDL.Text,
     'heroTitle' : IDL.Text,
   });
+  const SiteTheme = IDL.Record({
+    'backgroundColor' : IDL.Text,
+    'primaryColor' : IDL.Text,
+    'accentColor' : IDL.Text,
+  });
   
   return IDL.Service({
     '_caffeineStorageBlobIsLive' : IDL.Func(
@@ -234,6 +246,7 @@ export const idlFactory = ({ IDL }) => {
     'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
     'getHomepageContent' : IDL.Func([], [HomepageContent], ['query']),
     'getService' : IDL.Func([IDL.Text], [IDL.Opt(Service)], ['query']),
+    'getSiteTheme' : IDL.Func([], [SiteTheme], ['query']),
     'getTestimonialsByRating' : IDL.Func([], [IDL.Vec(Testimonial)], ['query']),
     'getUserProfile' : IDL.Func(
         [IDL.Principal],
@@ -245,6 +258,7 @@ export const idlFactory = ({ IDL }) => {
     'removeService' : IDL.Func([IDL.Text], [], []),
     'removeTestimonial' : IDL.Func([IDL.Int], [], []),
     'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
+    'setSiteTheme' : IDL.Func([SiteTheme], [], []),
     'submitBookingRequest' : IDL.Func([BookingRequest], [IDL.Int], []),
     'updateGalleryImage' : IDL.Func([GalleryImage], [], []),
     'updateHomepageContent' : IDL.Func([HomepageContent], [], []),

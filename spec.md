@@ -1,15 +1,13 @@
 # Specification
 
 ## Summary
-**Goal:** Add a 4-language switcher (English, Greek, Russian, Hebrew) to the site header and enrich media sections with drone cleaning imagery and video content from dronebase.it.
+**Goal:** Fix text contrast across all sections by setting text to bright white (#FFFFFF) on dark backgrounds throughout the site.
 
 **Planned changes:**
-- Add a language switcher component in the top header bar displaying flag icons or language abbreviations for English, Greek, Russian, and Hebrew
-- Implement frontend-only translations (placeholder/auto-translated) for all visible site text: navigation, hero, services, about, testimonials, contact, booking form labels, and footer
-- Persist the selected language in localStorage and restore it on page reload
-- Ensure the switcher is responsive and accessible on desktop and mobile
-- Embed at least one video from dronebase.it in the About section or a dedicated "Technology" block on the homepage
-- Add drone cleaning images referencing dronebase.it manufacturer content in relevant sections (hero, about, or services)
-- Ensure all new media is responsive and visually consistent with the existing dark navy/charcoal and electric yellow/orange theme
+- In `ServicesSection.tsx`, set the section label ("WHAT WE DO"), heading ("Our Services"), subtitle/description, service card titles, service card descriptions, and feature labels to bright white (#FFFFFF)
+- In `Layout.tsx`, force the navigation header to always use a dark background and set all nav link text (Services, About, Testimonials, Gallery, Contact), logo text, and other header text to bright white (#FFFFFF) — removing the white/transparent scrolled state that makes text invisible
+- In `AboutSection.tsx`, set the section heading, all body/paragraph text, and highlight card labels (Eco-Friendly, Precision Tech, Certified Team, Fast Turnaround) to bright white (#FFFFFF)
+- Audit and update `HeroSection`, `TestimonialsSection`, `GallerySection`, `BookingForm`, and `ContactSection` to ensure all headings, body text, labels, and descriptions use bright white (#FFFFFF) on dark backgrounds
+- Preserve orange accent colors (#F97316) for buttons, icons, and decorative elements throughout
 
-**User-visible outcome:** Users can switch between English, Greek, Russian, and Hebrew with all site text updating instantly and the preference remembered across page reloads. The site also features embedded video and imagery of the DJI Matrice 400 performing drone cleaning operations from the dronebase.it manufacturer page.
+**User-visible outcome:** All text across the entire public-facing site is clearly legible with maximum contrast — bright white text on dark backgrounds with no invisible or low-contrast text elements remaining.
